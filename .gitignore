@@ -186,5 +186,3 @@ fabric.properties
 *.class
 *.jar
 *.xml
-
-.DS_Store
