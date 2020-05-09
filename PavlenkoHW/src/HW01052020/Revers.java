@@ -1,6 +1,6 @@
 package HW01052020;
 
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -10,10 +10,11 @@ import java.util.List;
 public class Revers {
 
     public static List reversList(List list) {
-        LinkedList retList = new LinkedList();
-        for (int i = 0; i < list.size(); i++) {
-            retList.addFirst(list.get(i));
-        }
-        return retList;
+//        LinkedList retList = new LinkedList();
+        Collections.reverse(list);
+//        for (int i = 0; i < list.size(); i++) {
+//            retList.addFirst(list.get(i));
+//        }
+        return list;
     }
 }
