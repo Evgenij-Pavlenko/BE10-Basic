@@ -1,5 +1,6 @@
 package HW01052020;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -9,25 +10,22 @@ import java.util.List;
  */
 // наверное, есть решение попроще. с "contains(Object o)" тоже много кода выходит((
 public class LoopList {
-    public static boolean isLoopList(List list1, List list2) {
-        int count = 0;
-        for (int i = 0; i < list1.size(); i++) {
-            for (int j = 0; j < list2.size(); j++) {
-                if (i == list1.size() - 1) { // если во втором листе элементы идут подряд, а в первом - это первый и последний элемент
-                    if (list1.get(i).equals(list2.get(j)) && list1.get(0).equals(list2.get(j + 1))) {
-                        count++;
-                    }
-                } else if (j == list2.size() - 1) { // так же и для первого листа
-                    if (list1.get(i).equals(list2.get(j)) && list1.get(i + 1).equals(list2.get(0))) {
-                        count++;
-                    }
-                } else { // нормальное сравнение элементов в середине списка
-                    if (list1.get(i).equals(list2.get(j)) && list1.get(i + 1).equals(list2.get(j + 1))) {
-                        count++;
-                    }
-                }
-            }
+    public static void main(String[] args) {
+
+    }
+
+    public static boolean isLoopList(List<String> list1, List<String> list2) {
+        boolean flag = false;
+        if (list1.size() == list2.size()) {
+            //высисляем размер смещения
+            int count = list2.indexOf(list1.get(0));
+            System.out.println(count);
+            //смещаем. Про rotate() подсмотрел
+            Collections.rotate(list2, count);
+            //и сравниваем. Удивительно, что не нужно каждый элемент отдельно сравнивать,
+            // а у List метод equals уже нормально определен
+            flag = list1.equals(list2);
         }
-        return count == list1.size();
+        return flag;
     }
 }
