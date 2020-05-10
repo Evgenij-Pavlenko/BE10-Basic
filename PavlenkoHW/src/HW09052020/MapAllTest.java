@@ -2,10 +2,10 @@ package HW09052020;
 
 import org.junit.Test;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 import static HW09052020.MapAB.mapAB;
+import static HW09052020.MapAnargam.anagram;
 import static HW09052020.MapBoolean.wordMultiple;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -95,6 +95,33 @@ public class MapAllTest {
         for (String k : actual.keySet()) {
             assertEquals(expected.get(k), actual.get(k));
         }
+    }
+
+    //по слову “ivan” функция вернет
+    //{“navi”, “vani”}
+    @Test
+    public void testMapAnagram (){
+        List<String> list = new ArrayList<>();
+        //я так понял словарь - список слов
+        Collections.addAll(list,"anna", "ivan", "naan", "vani", "piotr", "nana", "navi");
+        List<String> actual = new ArrayList<>();
+        actual = anagram(list, "ivan");
+
+        List<String> expected = new ArrayList<>();
+        Collections.addAll(expected, "navi", "vani");
+    }
+
+   //по слову “anna” функция вернет
+    //{“naan”, “nana”}
+    @Test
+    public void testMapAnagram2 (){
+        List<String> list = new ArrayList<>();
+        Collections.addAll(list,"anna", "ivan", "naan", "vani", "piotr", "nana", "navi");
+        List<String> actual = new ArrayList<>();
+        actual = anagram(list, "ivan");
+
+        List<String> expected = new ArrayList<>();
+        Collections.addAll(expected, "navi", "vani");
     }
 
 
