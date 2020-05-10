@@ -7,6 +7,7 @@ import java.util.*;
 import static HW09052020.MapAB.mapAB;
 import static HW09052020.MapAnargam.anagram;
 import static HW09052020.MapBoolean.wordMultiple;
+import static HW09052020.NameCount.nameCount;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -122,6 +123,30 @@ public class MapAllTest {
 
         List<String> expected = new ArrayList<>();
         Collections.addAll(expected, "navi", "vani");
+    }
+//"Anna", "Pit", "Anna", "John", "Anna", "Pit" String = "Anna"-> {"Anna", 3}
+    @Test
+    public void testNameCount1(){
+        List<String> list = Arrays.asList("Anna", "Pit", "Anna", "John", "Anna", "Pit");
+        String str = "Anna";
+        Map<String, Integer> actual = nameCount(list, str);
+        Map<String, Integer> expected = new HashMap<>();
+        expected.put("Anna", 3);
+              assertEquals(expected.keySet(), actual.keySet());
+              assertEquals(expected.get(str), actual.get(str));
+
+    }
+//"Anna", "Pit", "Anna", "John", "Anna", "Pit" String = "John"  -> {"John", 1}
+    @Test
+    public void testNameCount2(){
+        List<String> list = Arrays.asList("Anna", "Pit", "Anna", "John", "Anna", "Pit");
+        String str = "Anna";
+        Map<String, Integer> actual = nameCount(list, str);
+        Map<String, Integer> expected = new HashMap<>();
+        expected.put("Anna", 3);
+              assertEquals(expected.keySet(), actual.keySet());
+              assertEquals(expected.get(str), actual.get(str));
+
     }
 
 
