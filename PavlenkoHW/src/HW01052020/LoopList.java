@@ -18,7 +18,7 @@ public class LoopList {
         boolean flag = false;
         if (list1.size() == list2.size()) {
             //высисляем размер смещения
-            int count = list2.indexOf(list1.get(0));
+            int count = -list2.indexOf(list1.get(0));
             System.out.println(count);
             //смещаем. Про rotate() подсмотрел
             Collections.rotate(list2, count);
