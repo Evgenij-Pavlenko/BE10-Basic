@@ -13,23 +13,43 @@ import java.util.*;
  */
 public class MapAnargam {
 
-    public static List<String> anagram(List<String> list, String str) {
-        Map<String, List<String>> ret = new HashMap<>();
-        List<String> value = new ArrayList<>();
-        if (list.contains(str)) {
-            ret.put(str, value);
-        }
-//сортировали по возрастанию, если элементы(i) равны - они анаграммы
-        for (int i = 0; i < list.size(); i++) {
-            String sTemp = list.get(i);
-            char[] ch = sTemp.toCharArray();
+    String[] words = {"anna", "ivan", "naan", "vani", "piotr", "nana", "navi"};
+    Map<String, List<String>> voc = new HashMap<>();
+
+    // 1. create voc from words
+    // 2. get list by word
+
+    public void populateVoc() {
+//words -> voc
+// ivan navi navi -> ainv
+        //пороходим весь список
+        for (String s : words) {
+            //сортируем буквы в слове по алфавиту
+            char[] ch = s.toCharArray();
             Arrays.sort(ch);
-            if (str.equals(ch) && !str.equals(sTemp)) {
-                ret.get(str).add(sTemp);
-            }
+            //получаем ключ Мапы в виде String
+            String key = String.valueOf(ch);
+
+            voc.putIfAbsent(key, new ArrayList<>());
+            voc.get(key).add(s);
+
+            //в таком варианте не работает:
+//            voc.computeIfPresent(key, (k,v) -> v.add(s));
         }
+    }
 
+    public List<String> getAnagrams(String word) {
+        populateVoc();
+        //делаем из word -> key (ключ мапы)
+        char[] ch = word.toLowerCase().toCharArray();
+        Arrays.sort(ch);
+        return voc.get(String.valueOf(ch));
+        //а такая конструкция не работает, видимо из-за последовательности операций:
+//        return voc.get(String.valueOf(Arrays.sort(word.toLowerCase().toCharArray())));
+    }
 
-        return value;
+    public static void main(String[] args) {
+        MapAnargam m = new MapAnargam();
+        System.out.println(m.getAnagrams("anna"));
     }
 }

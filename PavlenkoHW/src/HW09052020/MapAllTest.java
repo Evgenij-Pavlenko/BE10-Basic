@@ -5,7 +5,6 @@ import org.junit.Test;
 import java.util.*;
 
 import static HW09052020.MapAB.mapAB;
-import static HW09052020.MapAnargam.anagram;
 import static HW09052020.MapBoolean.wordMultiple;
 import static HW09052020.MaxWordCount.maxWordCount;
 import static HW09052020.NameCount.nameCount;
@@ -100,30 +99,30 @@ public class MapAllTest {
     }
 
     //по слову “ivan” функция вернет
-    //{“navi”, “vani”}
+    //{"ivan","navi", "vani"}
     @Test
     public void testMapAnagram() {
         List<String> list = new ArrayList<>();
         //я так понял словарь - список слов
         Collections.addAll(list, "anna", "ivan", "naan", "vani", "piotr", "nana", "navi");
         List<String> actual = new ArrayList<>();
-        actual = anagram(list, "ivan");
+        actual = new MapAnargam().getAnagrams("ivan");
 
         List<String> expected = new ArrayList<>();
-        Collections.addAll(expected, "navi", "vani");
+        Collections.addAll(expected, "ivan","navi", "vani");
     }
 
     //по слову “anna” функция вернет
-    //{“naan”, “nana”}
+    //{"anna", "naan", "nana"}
     @Test
     public void testMapAnagram2() {
         List<String> list = new ArrayList<>();
         Collections.addAll(list, "anna", "ivan", "naan", "vani", "piotr", "nana", "navi");
         List<String> actual = new ArrayList<>();
-        actual = anagram(list, "ivan");
+        actual = new MapAnargam().getAnagrams("anna");
 
         List<String> expected = new ArrayList<>();
-        Collections.addAll(expected, "navi", "vani");
+        Collections.addAll(expected, "anna", "naan", "nana");
     }
 
     //"Anna", "Pit", "Anna", "John", "Anna", "Pit" String = "Anna"-> {"Anna", 3}
