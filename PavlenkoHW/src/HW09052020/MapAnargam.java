@@ -16,12 +16,16 @@ public class MapAnargam {
     String[] words = {"anna", "ivan", "naan", "vani", "piotr", "nana", "navi"};
     Map<String, List<String>> voc = new HashMap<>();
 
+    public MapAnargam() {
+        populateVoc();
+    }
     // 1. create voc from words
     // 2. get list by word
 
     public void populateVoc() {
-//words -> voc
-// ivan navi navi -> ainv
+    //words -> voc
+    // ivan navi navi -> ainv
+
         //пороходим весь список
         for (String s : words) {
             //сортируем буквы в слове по алфавиту
@@ -39,7 +43,6 @@ public class MapAnargam {
     }
 
     public List<String> getAnagrams(String word) {
-        populateVoc();
         //делаем из word -> key (ключ мапы)
         char[] ch = word.toLowerCase().toCharArray();
         Arrays.sort(ch);
