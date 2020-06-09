@@ -5,8 +5,7 @@ import org.junit.Test;
 import java.util.*;
 
 import static HW20200606_Stream.StreamMain.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class StreamMainTest {
     Address a2 = new Address("Potsdamer Str", 2);
@@ -28,6 +27,7 @@ public class StreamMainTest {
     BankAccount ba2 = new BankAccount("DE89 3704 0044 0532 0130 02", p4_1);
     BankAccount ba3 = new BankAccount("DE89 3704 0044 0532 0130 03", p4_2);
     BankAccount ba4 = new BankAccount("DE89 3704 0044 0532 0130 04", p4_2);
+
 
     @Test
     public void testAge17() {
@@ -83,21 +83,60 @@ public class StreamMainTest {
         assertEquals(expected, actual);
     }
 
-//  @Test
-//    public void testgetIBANNStarList() {
-//        List<BankAccount> list = Arrays.asList(ba1, ba2);
-//        List<String> actual = getIBANNStarList(list);
-//        List<String> expected = Arrays.asList("DE8************************", "DE8************************");
-//
-//        assertTrue(actual.size() == expected.size());
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testgetIBANNStarList() {
+        List<BankAccount> list = Arrays.asList(ba1, ba2);
+        List<String> actual = getIBANNStarList(list);
+        List<String> expected = Arrays.asList("DE8************************", "DE8************************");
+
+        assertTrue(actual.size() == expected.size());
+        assertEquals(expected, actual);
+    }
 
     @Test
-    public void testWordCount(){
+    public void testWordCount() {
         String str = "Asd bsd sdfg asdfg bnhg bdf";
         int actual = wordCount(str, "b");
         int expected = 3;
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void testIsInteger() {
+        assertTrue(isInteger("12"));
+        assertFalse(isInteger("12,2"));
+        assertFalse(isInteger("12.3"));
+        assertFalse(isInteger("1abc"));
+    }
+
+//    @Test
+//    public void testGetIBANNByPerson() {
+//
+//        String ba1 = "DE89 3704 0044 0532 0130 01";
+//        String ba2 = "DE89 3704 0044 0532 0130 02";
+//        String ba3 = "DE89 3704 0044 0532 0130 03";
+//        String ba4 = "DE89 3704 0044 0532 0130 04";
+//        List<String> bal1 = Arrays.asList(ba1, ba2);
+//        List<String> bal2 = Arrays.asList(ba3, ba4);
+//        Person8 p8_1 = new Person8("Ivan", bal1);
+//        Person8 p8_2 = new Person8("Petr", bal2);
+//        List<Person8> pl = Arrays.asList(p8_1, p8_2);
+//        List<String> actual = getIBANNByPerson(pl);
+//        Map<Person8, List<String>> expected = new LinkedHashMap<>();
+//        String ba1exp = "DE8*************************";
+//        List<String> expList = Arrays.asList(ba1exp, ba1exp);
+//        expected.put(p8_1, expList);
+//        expected.put(p8_2, expList);
+//        assertEquals(expected, actual);
+//
+//    }
+
+    @Test
+    public void testGeneralAgeOver17(){
+        List<Person> list = Arrays.asList(p1,p2,p3,p4);
+        int actual = generalAgeOver17(list);
+        int expected = 60; //18+17+25=60
         assertEquals(expected,actual);
     }
 

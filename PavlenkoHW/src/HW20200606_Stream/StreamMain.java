@@ -14,6 +14,10 @@ public class StreamMain {
         Person p4 = new Person("Bob", 25, new Address("Potsdamer Str", 4));
         List<Person> list = Arrays.asList(p1, p2, p3, p4);
         System.out.println(ageOver17(list));
+        System.out.println(ibannStars("DE32 1234 1452 1254 12"));
+
+        //11.
+        printGeneralAgeOver17(list);
 
     }
 
@@ -56,34 +60,123 @@ public class StreamMain {
      */
 
     public static Map<Person4, List<BankAccount>> getBankAccountForPerson(List<BankAccount> list) {
-        return list.stream().collect(Collectors.groupingBy(b -> b.owner));
+        return list.stream().collect(Collectors.groupingBy(b -> b.getOwner()));
     }
 
     /*
     5. Написать функцию, которая для списка счетов, возвращает список IBANNs,
 где в каждом IBANN символы после 3-го и до конца заменены звездочками.
      */
-/////??????????????????????????????????
-//    public static List<String> getIBANNStarList(List<BankAccount> list) {
-//        //как-то с регулярными выражениями??
-//        //или вытянуть IBANN  как массив символов?..
-////        List<String> ret = list.stream().filter(b->b.IBANN!=null).map(b -> b.IBANN.replaceAll( "![a-z,A-Z,0-9]{3}","*")).collect(Collectors.toList());
-////        return ret;
-//        List<String> ret = new ArrayList<>();
-//        Stream<Object> ch = list.stream().map(b -> b.IBANN);
-//        ret = Arrays.stream(ch).skip(3).map(c -> c = '*').map(m->m.toString()).collect(Collectors.toList());
-////        ret = ch.stream().map(m -> m.toString()).collect(Collectors.toList());
-//        return ret;
-//    }
+    public static List<String> getIBANNStarList(List<BankAccount> list) {
+        //как-то с регулярными выражениями??
+        //или вытянуть IBANN  как массив символов?..
+        ////// блин, оказалось через 2 substring - подсмотрел на предыдущем курсе (
+        // поскольку звездочки используются в нескольких задачах - получился отдельный метод ibannStars()
+        List<String> ret = list.stream().filter(b -> b.getIBANN() != null)
+                .map(BankAccount::getIBANN)//map(b->b.getIBANN()) - сначала так делал
+                .map(StreamMain::ibannStars)
+                .collect(Collectors.toList());
+        return ret;
+    }
 
     /*
     6. Написать функцию, которая принимает предложение, а возвращает
 количество слов, начинающихся на заданную букву.
      */
 
-    public static int wordCount(String s, String ch){
+    public static int wordCount(String s, String ch) {
         String[] sArray = s.split(" ");
-        return (int) Arrays.stream(sArray).filter(f->f.startsWith(ch)).count();
+        return (int) Arrays.stream(sArray).filter(f -> f.startsWith(ch)).count();
+    }
+
+    /*
+    7. Написать функцию, которая проверяет, является ли заданная строка целым
+числом. Подсказка - Character.isDigit() и Stream.allMatch().
+     */
+// This was very hard
+    public static Boolean isInteger(String s) {
+        return s.chars().allMatch(Character::isDigit);
+    }
+
+    /*
+    8. Есть два класса:
+public class BankAccount {
+String IBANN;
+}
+public class Person {
+String name;
+List<String> banAccounts;
+}
+9. Написать функцию, которая по списку persons возвращает список их
+банковских счетов с звездочками с третьего символа. Подсказка - flatMap()
+     */
+
+//    /**
+//     * ПРОДОЛЖИТЬ!
+//     *
+//     */
+//    public static List<String> getIBANNByPerson(List<Person8> listP) {
+//        return listP.stream().flatMap(p -> p.getBanAccounts().stream())
+//                .collect(Collectors.toList()).stream().map(StreamMain::ibannStars).collect(Collectors.toList());
+//    }
+
+    public static String ibannStars(String s) {
+        // или звездочки должны не трогать пробелы???
+        return s.substring(0, 3) + s.substring(3).replaceAll("\\w|\\s", "*");
+    }
+
+    /*
+    10. Для списка persons посчитать общий возраст тех, кому больше 17 лет.
+Подсказка - reduce()
+     */
+
+    public static int generalAgeOver17(List<Person> list) {
+        return list.stream().filter(p -> p.getAge() >= 17).map(Person::getAge).reduce((a, b) -> a + b).orElse(0);
+    }
+
+
+    /*
+    11. Написать функцию, которая для списка persons напечатает для тех, кто
+старше 17 лет: In Germany <name1> and <name2> and …<nameN> are of legal
+age. Подсказка - Collectors.joining();
+     */
+    //Тут без теста
+    public static void printGeneralAgeOver17(List<Person> list) {
+      String ret =   list.stream()
+                .filter(p -> p.getAge() >= 17)
+                .map(Person::getName)
+                .collect(Collectors.joining(" and "));
+        System.out.println("In Germany "+ ret+ " are of legal age.");
+    }
+}
+
+class BankAccount8 {
+    private String IBANN;
+
+    public BankAccount8(String IBANN) {
+        this.IBANN = IBANN;
+    }
+
+    public String getIBANN() {
+        return IBANN;
+    }
+}
+
+class Person8 {
+    private String name;
+    private List<String> banAccounts;
+
+    public Person8(String name, List<String> banAccounts) {
+        this.name = name;
+        this.banAccounts = banAccounts;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<String> getBanAccounts() {
+        return banAccounts;
     }
 
 }
