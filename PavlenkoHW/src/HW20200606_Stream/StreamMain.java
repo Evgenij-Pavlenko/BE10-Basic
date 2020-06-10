@@ -1,6 +1,5 @@
 package HW20200606_Stream;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -32,10 +31,9 @@ public class StreamMain {
     людей, чей возраст больше 17 лет.
      */
     //возвращает список адресов, но, думаю, есть решение в 1 строку...
+    //PS. нашел)
     public static List<Address> ageOver17(List<Person> list) {
-        List<Address> adr = new ArrayList<>();
-        list.stream().filter(s -> s.age >= 17).forEach(s -> adr.add(s.address));
-        return adr;
+        return list.stream().filter(s -> s.age >= 17).map(Person::getAddress).collect(Collectors.toList());
     }
 
     /*
@@ -72,11 +70,10 @@ public class StreamMain {
         //или вытянуть IBANN  как массив символов?..
         ////// блин, оказалось через 2 substring - подсмотрел на предыдущем курсе (
         // поскольку звездочки используются в нескольких задачах - получился отдельный метод ibannStars()
-        List<String> ret = list.stream().filter(b -> b.getIBANN() != null)
+        return list.stream().filter(b -> b.getIBANN() != null)
                 .map(BankAccount::getIBANN)//map(b->b.getIBANN()) - сначала так делал
                 .map(StreamMain::ibannStars)
                 .collect(Collectors.toList());
-        return ret;
     }
 
     /*
@@ -84,9 +81,9 @@ public class StreamMain {
 количество слов, начинающихся на заданную букву.
      */
 
-    public static int wordCount(String s, String ch) {
+    public static long wordCount(String s, String ch) {
         String[] sArray = s.split(" ");
-        return (int) Arrays.stream(sArray).filter(f -> f.startsWith(ch)).count();
+        return Arrays.stream(sArray).filter(f -> f.startsWith(ch)).count();
     }
 
     /*
@@ -111,14 +108,10 @@ List<String> banAccounts;
 банковских счетов с звездочками с третьего символа. Подсказка - flatMap()
      */
 
-//    /**
-//     * ПРОДОЛЖИТЬ!
-//     *
-//     */
-//    public static List<String> getIBANNByPerson(List<Person8> listP) {
-//        return listP.stream().flatMap(p -> p.getBanAccounts().stream())
-//                .collect(Collectors.toList()).stream().map(StreamMain::ibannStars).collect(Collectors.toList());
-//    }
+    public static List<String> getIBANNByPerson(List<Person8> listP) {
+        return listP.stream().flatMap(p -> p.getBanAccounts().stream())
+                .collect(Collectors.toList()).stream().map(StreamMain::ibannStars).collect(Collectors.toList());
+    }
 
     public static String ibannStars(String s) {
         // или звездочки должны не трогать пробелы???
@@ -142,11 +135,11 @@ age. Подсказка - Collectors.joining();
      */
     //Тут без теста
     public static void printGeneralAgeOver17(List<Person> list) {
-      String ret =   list.stream()
+        String ret = list.stream()
                 .filter(p -> p.getAge() >= 17)
                 .map(Person::getName)
                 .collect(Collectors.joining(" and "));
-        System.out.println("In Germany "+ ret+ " are of legal age.");
+        System.out.println("In Germany " + ret + " are of legal age.");
     }
 }
 
