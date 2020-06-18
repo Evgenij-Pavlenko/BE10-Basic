@@ -1,0 +1,5 @@
+run
+sit
+sleep
+wake up
+stop
