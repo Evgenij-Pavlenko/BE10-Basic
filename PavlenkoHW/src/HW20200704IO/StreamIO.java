@@ -107,11 +107,11 @@ Stream API, sorted, Comparator, lambda functions, Java Doc.
             System.out.println(e.getMessage());
         }
         System.out.println("---------sorted List---------");
-        listPerson3.stream().sorted((p1, p2) -> p1.getAge() - p2.getAge())
+        listPerson3.stream().sorted(Comparator.comparingInt(Person3::getAge))
                 .forEach(System.out::println);
         System.out.println("---------sorted List age>17---------");
         listPerson3.stream().filter(i -> i.getAge() > 17)
-                .sorted((p1, p2) -> p1.getAge() - p2.getAge())
+                .sorted(Comparator.comparingInt(Person3::getAge))
                 .forEach(System.out::println);
     }
 
