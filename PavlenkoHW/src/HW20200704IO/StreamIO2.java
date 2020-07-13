@@ -201,17 +201,23 @@ Anna,13-12-1995
 
     public static void sortedDateForPerson(String file) {
         File outFile = new File("PersonWithDate.txt");
+        File unstatdartDate = new File("PersonUnDate.txt");
         System.out.println(outFile);
         String str;
         String[] person;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         List<PersonDate> personDates = new ArrayList<>();
+        List<String> personUnDates = new ArrayList<>();
 
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
             while ((str = in.readLine()) != null) {
-                person = str.split(",");
-                personDates.add(new PersonDate(person[0], LocalDate.parse(person[1], formatter)));
+                    person = str.split(",");
+                if (isDate(person[1], formatter)) {
+                    personDates.add(new PersonDate(person[0], LocalDate.parse(person[1], formatter)));
+                } else {
+                    personUnDates.add(str);
+                }
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -219,13 +225,18 @@ Anna,13-12-1995
         }
         System.out.println(personDates);
 
+
         List<String> persons = personDates.stream()
                 .sorted(Comparator.comparing(PersonDate::getDate))
                 .map(p -> p.getName() + "," + p.getDate()).collect(Collectors.toList());
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(outFile))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(outFile));
+                BufferedWriter bwUnstandart = new BufferedWriter(new FileWriter(unstatdartDate))) {
             for (String p3 : persons) {
                 bw.write(p3 + System.lineSeparator());
+            }
+            for (String s: personUnDates){
+                bwUnstandart.write(s + System.lineSeparator());
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -233,6 +244,17 @@ Anna,13-12-1995
         if (outFile.length() > 0) {
             System.out.println("File created");
         }
+    }
+
+    public static boolean isDate(String string, DateTimeFormatter formatter) {
+        try {
+            LocalDate.parse(string, formatter);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Date format: " + string + " not supported");
+            return false;
+        }
+
     }
 
 }
