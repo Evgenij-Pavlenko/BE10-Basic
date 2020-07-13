@@ -11,6 +11,11 @@ public class Person2 {
         this.sum = sum;
     }
 
+    public Person2(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public String getFirstName() {
         return firstName;
     }
