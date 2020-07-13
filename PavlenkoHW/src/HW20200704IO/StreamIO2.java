@@ -212,12 +212,17 @@ Anna,13-12-1995
 
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
             while ((str = in.readLine()) != null) {
+                try { // blank line protection
                     person = str.split(",");
-                if (isDate(person[1], formatter)) {
-                    personDates.add(new PersonDate(person[0], LocalDate.parse(person[1], formatter)));
-                } else {
-                    personUnDates.add(str);
+                    if (isDate(person[1], formatter)) {
+                        personDates.add(new PersonDate(person[0], LocalDate.parse(person[1], formatter)));
+                    } else {
+                        personUnDates.add(str);
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println(e.getMessage());
                 }
+
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -231,11 +236,11 @@ Anna,13-12-1995
                 .map(p -> p.getName() + "," + p.getDate()).collect(Collectors.toList());
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(outFile));
-                BufferedWriter bwUnstandart = new BufferedWriter(new FileWriter(unstatdartDate))) {
+             BufferedWriter bwUnstandart = new BufferedWriter(new FileWriter(unstatdartDate))) {
             for (String p3 : persons) {
                 bw.write(p3 + System.lineSeparator());
             }
-            for (String s: personUnDates){
+            for (String s : personUnDates) {
                 bwUnstandart.write(s + System.lineSeparator());
             }
         } catch (IOException e) {
