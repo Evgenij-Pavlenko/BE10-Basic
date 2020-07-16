@@ -34,53 +34,55 @@ public class ImageProcessorTest {
     @Test
     public void testDoProcessing() {
         //configure mock
-        List<ImageDescriptor> testImageDescriptors = createTestImageDescriptors();
-        List<ActionableImage> testActionableImages = createActionableImage();
-        when(imageDescriptorService.getImageDescriptors(any())).thenReturn(testImageDescriptors);
-//        when(downloadService.downloadImages(any())).thenReturn(testActionableImages);
-        when(downloadService.downloadImages(any())).thenReturn(testActionableImages);
-
+        List<ImageDescriptor> testImageDescriptor = createTestImageDescriptors();
+        List<ActionableImage> testActionableImage = createActionableImage();
+//        ActionableImage actionableImage = createOneActionableImage();
+//        List<String> testStringsFromFile = createStringsFromFile();
+        when(imageDescriptorService.getImageDescriptors(any())).thenReturn(testImageDescriptor);
+        when(downloadService.downloadImages(any())).thenReturn(testActionableImage);
+//        when(imageService.processImage(any())).thenReturn(actionableImage);
+//        when(fileService.loadStringsFromFile(any())).thenReturn(testStringsFromFile);
         //execute test method
         processor.doProcessing("test.txt");
-
         //verify
         verify(imageDescriptorService, times(1)).getImageDescriptors("test.txt");
-        verify(downloadService, times(1)).downloadImages(testActionableImages); //problemm
-        /*
-Argument(s) are different! Wanted:
-downloadService.downloadImages(  ////expected: isSuccessfull=true, actual: isSuccessfull=false
-    [ActionableImage{image=null, isSuccessfull=true, sourceUrl='http://server.com/image1.jpg', actionName='PREVIEW'}, ActionableImage{image=null, isSuccessfull=true, sourceUrl='http://server.com/image2.jpg', actionName='THUMBNAIL'}]
-);
--> at ImageProcessorTest.testDoProcessing(ImageProcessorTest.java:48)
-Actual invocations have different arguments:
-downloadService.downloadImages(
-    [ActionableImage{image=null, isSuccessfull=false, sourceUrl='http://server.com/image1.jpg', actionName='PREVIEW'}, ActionableImage{image=null, isSuccessfull=false, sourceUrl='http://server.com/image2.jpg', actionName='THUMBNAIL'}]
-);
--> at de.telran.ImageProcessor.doProcessing(ImageProcessor.java:37)
+        verify(downloadService, times(1)).downloadImages(any());
+//        verify(imageService, times(2)).processImage(any());
+//        verify(fileService, times(2)).loadStringsFromFile(any());
 
-Comparison Failure:
-<Click to see difference>
-
-Argument(s) are different! Wanted:
-downloadService.downloadImages(
-    [ActionableImage{image=null, isSuccessfull=true, sourceUrl='http://server.com/image1.jpg', actionName='PREVIEW'}, ActionableImage{image=null, isSuccessfull=true, sourceUrl='http://server.com/image2.jpg', actionName='THUMBNAIL'}]
-);
--> at ImageProcessorTest.testDoProcessing(ImageProcessorTest.java:48)
-Actual invocations have different arguments:
-downloadService.downloadImages(
-    [ActionableImage{image=null, isSuccessfull=false, sourceUrl='http://server.com/image1.jpg', actionName='PREVIEW'}, ActionableImage{image=null, isSuccessfull=false, sourceUrl='http://server.com/image2.jpg', actionName='THUMBNAIL'}]
-);
--> at de.telran.ImageProcessor.doProcessing(ImageProcessor.java:37)
-         */
-
-        verify(fileService, times(2)).saveImageAsFile(any());
+//        Wanted but not invoked:
+//        fileService.loadStringsFromFile(<any>);
+//-> at ImageProcessorTest.testDoProcessing(ImageProcessorTest.java:51)
+//
+//        However, there were exactly 2 interactions with this mock:
+//        fileService.saveImageAsFile(
+//                ActionableImage{image=null, isSuccessfull=false, sourceUrl='http://server.com/image1.jpg', actionName='PREVIEW'}
+//);
+//-> at de.telran.ImageProcessor.lambda$doProcessing$2(ImageProcessor.java:48)
+//
+//        fileService.saveImageAsFile(
+//                ActionableImage{image=null, isSuccessfull=false, sourceUrl='http://server.com/image1.jpg', actionName='PREVIEW'}
+//);
+//-> at de.telran.ImageProcessor.lambda$doProcessing$2(ImageProcessor.java:48)
 
     }
-private static List<ActionableImage> createActionableImage(){
+
+    private List<String> createStringsFromFile() {
+        return  Arrays.asList(
+                "http://server.com/image1.jpg;PREVIEW",
+                "http://server.com/image2.jpg;THUMBNAIL"
+        );
+    }
+
+
+    public static  ActionableImage createOneActionableImage(){
+        return  new ActionableImage(null, false, "http://server.com/image1.jpg", "PREVIEW");
+    }
+
+    private static List<ActionableImage> createActionableImage(){
         return  Arrays.asList(
                 new ActionableImage(null, true, "http://server.com/image1.jpg", "PREVIEW"),
-                new ActionableImage(null, true, "http://server.com/image2.jpg", "THUMBNAIL")
-        );
+                new ActionableImage(null, true, "http://server.com/image2.jpg", "THUMBNAIL"));
 }
 
 

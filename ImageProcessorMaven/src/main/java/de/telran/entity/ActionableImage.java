@@ -1,6 +1,7 @@
 package de.telran.entity;
 
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 public class ActionableImage {
     private BufferedImage image;
@@ -46,6 +47,22 @@ public class ActionableImage {
 
     public void setActionName(String actionName) {
         this.actionName = actionName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ActionableImage that = (ActionableImage) o;
+        return isSuccessfull == that.isSuccessfull &&
+                Objects.equals(image, that.image) &&
+                Objects.equals(sourceUrl, that.sourceUrl) &&
+                Objects.equals(actionName, that.actionName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(image, isSuccessfull, sourceUrl, actionName);
     }
 
     @Override
