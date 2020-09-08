@@ -1,0 +1,24 @@
+Write SQL queries to get the following information(for many-to-many):
+
+How many candidates we have?
+select count(*) from users; or
+elect * from users;
+
+How many vacancies we have?
+select count(*) from vacancy; or
+elect * from vacancy;
+
+Home many vacancies without a candidate we have?
+
+
+How may candidate without vacancies we have?
+select * from user_vacancy where vacancy_id is null;
+
+List all full stack (backend, frontend) engineers (first name, last name, vacancy title)
+select first_name, last_name, title from users u join user_vacancy uv on u.user_id=uv.user_id join vacancy v on uv.vacancy_id=v.vacancy_id;
+
+
+List how many candidates each vacancy has (hint: see sql groupby, count)
+select title, count(*) from vacancy v join user_vacancy uv on v.vacancy_id=uv.vacancy_id join users u on uv.user_id = u.user_id group by title;
+
+List to how many vacancies each engineer applied to
